@@ -10,18 +10,25 @@ Developed with a tobiipro eye tracker and Ubuntu 22
 """
 
 import os
-import random
 import sys
 import time
-import datetime
 
 import yaml
 import matplotlib.pyplot as plt
 import matplotlib.image as img
 import tobii_research as tr
+import webbrowser
 
-IMG_DIR = "images"
 SAVE_DIR = "results"
+IMG_DIR = "images"
+TEXTS = ["example", "text_1", "text_2", "text_3"]
+STYLES = ["control", "bionic", "control", "random"]
+FORM_URLS = {
+    "example": "https://google.com",
+    "text_1": "https://google.com",
+    "text_2": "https://google.com",
+    "text_3": "https://google.com"
+}
 
 state = "blank"
 start_time = 0
@@ -29,8 +36,8 @@ end_time = 0
 my_eyetracker = tr.find_all_eyetrackers()[0]
 all_gaze_data = []
 
-def save_trial(start_time, end_time, image_path, all_gaze_data):
-    curtime = datetime.datetime.now().isoformat()
+def save_trial(dir, start_time, end_time, image_path, all_gaze_data):
+    curtime = time.strftime("%Y%m%d-%H%M%S")
     results = {
         "time": curtime,
         "start_time": start_time,
@@ -38,19 +45,20 @@ def save_trial(start_time, end_time, image_path, all_gaze_data):
         "duration": end_time-start_time,
         "image_path": image_path
     }
-    savedir = os.path.join(SAVE_DIR, curtime)
-    os.mkdir(savedir)
-    with open(os.path.join(savedir, "trial.yaml"), 'w+') as file:
+    os.makedirs(dir)
+    with open(os.path.join(dir, "trial.yaml"), 'w+') as file:
         yaml.dump(results, file)
 
-    with open(os.path.join(savedir, "gaze.txt"), 'w+') as file:
+    with open(os.path.join(dir, "gaze.txt"), 'w+') as file:
         for datapoint in all_gaze_data:
             file.write(f"{str(datapoint)}\n")
 
-def main():
+def display_img(img_path):
+    """Display a given image on the screen, and record gaze data, start time, and end time
+    """
+
     fig, ax = plt.subplots()
-    image_path = os.path.join(IMG_DIR, random.choice(os.listdir(IMG_DIR)))
-    image = img.imread(image_path)
+    image = img.imread(img_path)
     ax.axis('off')
     fig.subplots_adjust(
         top=1.0,
@@ -81,6 +89,7 @@ def main():
                 start_time = time.time()
                 my_eyetracker.subscribe_to(tr.EYETRACKER_GAZE_DATA, gaze_data_callback, as_dictionary=True)
             elif state == "shown":
+                my_eyetracker.unsubscribe_from(tr.EYETRACKER_GAZE_DATA)
                 plt.close()
                 end_time = time.time()
 
@@ -88,7 +97,37 @@ def main():
 
     plt.show()
 
-    save_trial(start_time, end_time, image_path, all_gaze_data)
+
+def main():
+    global all_gaze_data
+    global start_time
+    global end_time
+    global state
+
+    timestamp_save_dir = os.path.join(SAVE_DIR, time.strftime("%Y%m%d-%H%M%S"))
+    for text, style, i in zip(TEXTS, STYLES, range(len(TEXTS))):
+        img_path = os.path.join(IMG_DIR, text, f"{style}.png")
+
+        display_img(img_path)
+
+        trial_save_dir = os.path.join(timestamp_save_dir, f"{i}_{text}_{style}")
+        save_trial(trial_save_dir, start_time, end_time, img_path, all_gaze_data)
+        
+        # reset the globals
+        all_gaze_data = []
+        start_time = 0
+        end_time = 0
+        state = "blank"
+        
+        # open appropriate google form in browser
+        print("opening google form")
+        webbrowser.open_new(FORM_URLS[text])
+
+        # wait for input in terminal to continue to display next window
+        if i != len(TEXTS)-1:
+            input("Press enter to continue")
+        else:
+            print("Finished")
 
 
 if __name__ == '__main__':
