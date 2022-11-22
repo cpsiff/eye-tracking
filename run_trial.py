@@ -25,9 +25,9 @@ TEXTS = ["example", "text_1", "text_2", "text_3"]
 STYLES = ["control", "bionic", "control", "random"]
 FORM_URLS = {
     "example": "https://google.com",
-    "text_1": "https://google.com",
-    "text_2": "https://google.com",
-    "text_3": "https://google.com"
+    "text_1": "https://forms.gle/xaPmFvsGbrSXu9LL8",
+    "text_2": "https://forms.gle/dyAK6pxbSD8n7XSr8",
+    "text_3": "https://forms.gle/5sAcm81AzVe8LERb8"
 }
 
 state = "blank"
