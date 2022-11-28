@@ -9,9 +9,10 @@ Here is how I installed everything:
 
 1. Install [Tobii Pro Eye Tracker Manager](https://connect.tobii.com/s/etm-downloads?language=en_US)
 2. Create a new conda environment: `conda create -n eye-tracking python=3.8.13`
-3. Install TobiiPro SDK for Python: `pip install tobii_research` ([official guide](https://developer.tobiipro.com/python/python-getting-started.html))
-4. `pip install pyyaml matplotlib`
-5. Before running `run_trial.py`, plug in the eye tracker, run the Tobii Pro Eye Tracker Manager, install the eye tracker if needed, an perform calibration
+3. Activate that environment: `conda activate eye-tracking`
+4. Install TobiiPro SDK for Python: `pip install tobii_research` ([official guide](https://developer.tobiipro.com/python/python-getting-started.html))
+5. `pip install pyyaml matplotlib`
+6. Before running `run_trial.py`, plug in the eye tracker, run the Tobii Pro Eye Tracker Manager, install the eye tracker if needed, an perform calibration
 
 ## Documentation
 [Official getting started guide for SDK](https://developer.tobiipro.com/python/python-getting-started.html)
