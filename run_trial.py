@@ -69,7 +69,7 @@ def display_img(img_path):
 
     # http://stackoverflow.com/questions/32428193/ddg#32428266
     manager = plt.get_current_fig_manager()
-    manager.window.showMaximized()
+    manager.resize(*manager.window.maxsize())
 
     def gaze_data_callback(gaze_data):
         global all_gaze_data
