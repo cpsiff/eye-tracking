@@ -26,7 +26,8 @@ FORM_URLS = {
     "example": "https://forms.gle/a57tyhBs5FDuEXvTA",
     "text_1": "https://forms.gle/xaPmFvsGbrSXu9LL8",
     "text_2": "https://forms.gle/dyAK6pxbSD8n7XSr8",
-    "text_3": "https://forms.gle/5sAcm81AzVe8LERb8"
+    "text_3": "https://forms.gle/5sAcm81AzVe8LERb8",
+    "end": "https://forms.gle/fvUgpH35AiUYtern9"
 }
 
 state = "blank"
@@ -126,7 +127,7 @@ def main():
         if i != len(TEXTS)-1:
             input("Press enter to continue")
         else:
-            print("Finished")
+            webbrowser.open_new(FORM_URLS["end"])
 
 
 if __name__ == '__main__':
