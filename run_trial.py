@@ -21,7 +21,7 @@ import webbrowser
 
 SAVE_DIR = "results"
 IMG_DIR = "images"
-TEXTS, STYLES = ["example", "text_2", "text_1", "text_3"], ["control", "control", "bionic", "random"]
+TEXTS, STYLES = ["example", "text_1", "text_2", "text_3"], ["control", "random", "bionic", "control"]
 FORM_URLS = {
     "example": "https://forms.gle/a57tyhBs5FDuEXvTA",
     "text_1": "https://forms.gle/xaPmFvsGbrSXu9LL8",
