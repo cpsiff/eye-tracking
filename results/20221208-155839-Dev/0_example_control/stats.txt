@@ -1,0 +1,4 @@
+# of Fixations: 2
+avg Fixation Duration: 237522.0
+# of Saccades: 2
+avg Saccade Duration: 62471.0
